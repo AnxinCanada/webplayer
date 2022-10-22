@@ -175,7 +175,9 @@
   }
   
   video.addEventListener('canplay', function() {
+    console.log("CanPlay Event")
     if (!isrun) {
+      console.log("Isnt run yet, running")
     if (localStorage.getItem(params.viewkey) != null) {
       video.currentTime = localStorage.getItem(params.viewkey);
       start_savetime()
@@ -185,6 +187,7 @@
 });
 
   video.addEventListener('loadeddata', function() {
+    console.log("Metadata Loaded")
      update_time_label()
   }, false);
     </script>
