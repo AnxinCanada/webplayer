@@ -1,0 +1,204 @@
+<head>
+    <title>Loading...</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+      body {margin: 0px}
+      video {width: 100%;height: 100%;background:black;}
+      .video-player {width: 100vw;position: relative;}
+      .controls {display: flex;position: absolute;width: 100%;bottom: 0;background: linear-gradient(to bottom, transparent, #000);align-items: center;transition: opacity .2s;}
+      .video-player.playing .controls {opacity: 0;}
+      .video-player:hover .controls {opacity: 1;}
+      .control-button {border: none;background: transparent;cursor: pointer;opacity: .8;transition: all .2s;}
+      .control-button:hover {opacity: 1;}
+      .control-button.play-button {height: 40px;width: 40px;}
+      .control-button.sound-button {height: 40px;width: 40px;}
+      .control-button.fullscreen-button {height: 35px;width: 35px;}
+      .control-button.download-button {height: 35px;width: 35px;}
+      .control-button svg {stroke: #fff;fill: transparent;}
+      .timeline {-webkit-appearance: none;appearance: none;width: calc(100% - 125px);height: .5em;background-color: rgba(255, 255, 255, .3);border-radius: 5px;background-size: 0% 100%;background-image: linear-gradient(#fff, #fff);background-repeat: no-repeat;}
+      .timeline::-webkit-slider-thumb {-webkit-appearance: none;appearance: none;width: 1em;height: 1em;border-radius: 50%;cursor: pointer;opacity: 0;transition: all .1s;background-color: rgba(255, 255, 255, .8);}
+      .timeline::-moz-range-thumb {-webkit-appearance: none;appearance: none;width: 1em;height: 1em;border-radius: 50%;cursor: pointer;opacity: 0;transition: all .1s;background-color: rgba(255, 255, 255, .8);}
+      .timeline::-ms-thumb {-webkit-appearance: none;appearance: none;width: 1em;height: 1em;border-radius: 50%;cursor: pointer;opacity: 0;transition: all .1s;background-color: rgba(255, 255, 255, .8);}
+      .timeline::-webkit-slider-thumb:hover {background-color: #fff;}
+      .timeline:hover::-webkit-slider-thumb {opacity: 1;}
+      .timeline::-moz-range-thumb:hover {background-color: #fff;}
+      .timeline:hover::-moz-range-thumb {opacity: 1;}
+      .timeline::-ms-thumb:hover {background-color: #fff;}
+      .timeline:hover::-ms-thumb {opacity: 1;}
+      .timeline::-webkit-slider-runnable-track {-webkit-appearance: none;appearance: none;box-shadow: none;border: none;background: transparent;}
+      .timeline::-moz-range-track {-webkit-appearance: none;appearance: none;box-shadow: none;border: none;background: transparent;}
+      .timeline::-ms-track {-webkit-appearance: none;appearance: none;box-shadow: none;border: none;background: transparent;}
+    </style>
+  </head>
+  <body>
+    <div id="window">
+    <noscript>This webpage requires Javascript to be enabled to work properly.</noscript>
+    <video id="video" width="100%" poster="" preload="metadata">
+      <source src="" type="video/mp4" />
+      Your browser does not seem to have HTML5 Video playback capabilities.
+    </video>
+    <div class="controls">
+      <!-- Play Button -->
+      <button class="play-button control-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+      </button>
+  
+      <!-- Video Timeline Slider -->
+      <input type="range" min="0" max="100" class="timeline" value="0" />
+  
+      <!-- Time Label -->
+      <span style="color:white; margin-left:.75em; margin-right:.25em; font-family: 'Open Sans', sans-serif;" id="timestamp">00:00</span>
+  
+      <!-- Toggle Mute Button -->
+      <button class="sound-button control-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+      </button>
+  
+      <!-- Fullscreen Button -->
+      <button class="control-button fullscreen-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+      </button>
+  
+      <!-- Download Button -->
+      <button class="control-button download-button" id="downloadbtn">
+        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="20" height="20"><defs><clipPath clipPathUnits="userSpaceOnUse" id="cp1"><path d="m29.49 19.11v8.86c0 1.11-0.9 2.01-2.02 2.01h-24.96c-1.12 0-2.02-0.9-2.02-2.01v-8.86h4.03v6.84h20.94v-6.84zm-14.87-0.68l-5.76-6.97c0 0-0.88-0.83 0.07-0.83 0.95 0 3.25 0 3.25 0 0 0 0-0.55 0-1.41 0-2.45 0-6.91 0-8.73 0 0-0.13-0.49 0.62-0.49 0.75 0 4.03 0 4.57 0 0.53 0 0.52 0.42 0.52 0.42 0 1.76 0 6.37 0 8.74 0 0.77 0 1.26 0 1.26 0 0 1.84 0 3 0 1.15 0 0.29 0.87 0.29 0.87 0 0-4.91 6.51-5.59 7.19-0.49 0.5-0.97-0.05-0.97-0.05z"/></clipPath></defs><style>.a{fill:#fff}</style><g clip-path="url(#cp1)"><path  d="m29.5 19.1v8.9c0 1.1-0.9 2-2 2h-25c-1.1 0-2-0.9-2-2v-8.9h4v6.9h21v-6.9zm-14.9-0.7l-5.8-6.9c0 0-0.8-0.9 0.1-0.9 1 0 3.3 0 3.3 0 0 0 0-0.5 0-1.4 0-2.4 0-6.9 0-8.7 0 0-0.2-0.5 0.6-0.5 0.7 0 4 0 4.5 0 0.6 0 0.6 0.4 0.6 0.4 0 1.8 0 6.4 0 8.8 0 0.7 0 1.2 0 1.2 0 0 1.8 0 3 0 1.1 0 0.2 0.9 0.2 0.9 0 0-4.9 6.5-5.5 7.2-0.5 0.5-1-0.1-1-0.1z"/><path class="a" d="m-6-2h39v36h-39z"/></g></svg>
+      </button>
+    </div>
+  </div>
+      
+      
+      
+      
+      <script>
+  
+      const params = new Proxy(new URLSearchParams(window.location.search), {get: (searchParams, prop) => searchParams.get(prop),});
+      var movie_name = "Eric's Web Player";
+      if (params.movie) {movie_name = atob(params.movie)}
+      var url = "https://api.onedrive.com/v1.0/shares/u!" + params.viewkey + "/root/content"
+  
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+
+      document.title = movie_name;
+      var video2 = document.getElementsByTagName('video')[0];
+      video2.poster="https://github.com/AnxinCanada/moviedb/raw/main/" + atob(params.favicon) + ".png"
+      var sources = video2.getElementsByTagName('source');
+      sources[0].src = url;
+      video2.load();
+      var downloadbtn = document.getElementsByTagName('a')[0];
+        document.getElementById("downloadbtn").onclick = function() {
+          window.open(url, '_blank').focus();
+          return false;
+      };
+  
+      var xmlns = '<svg xmlns="http://www.w3.org/2000/svg" class="'
+      const play = xmlns + `h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>`;
+      const pause = xmlns + `h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+      const sound = xmlns + `h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>`;
+      const mute = xmlns + `h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>`;
+      
+      const playButton = document.querySelector('.play-button');
+      const video = document.getElementById('video');
+      const timeline = document.querySelector('.timeline');
+      const soundButton = document.querySelector('.sound-button');
+      const fullscreenButton = document.querySelector('.fullscreen-button');
+      const videoContainer = document.querySelector('.video-player');
+      const window2 = document.getElementById("window")
+      let isFullScreen = false;
+      var isfirstplay = 1;
+
+      // On Play Button Clicked
+      playButton.addEventListener('click', function () {if (video.paused) {video.play();video.classList.add('playing');playButton.innerHTML = pause;} else {video.pause();video.classList.remove('playing');playButton.innerHTML = play;}})
+      
+      // On video end event
+      video.onended = function () {playButton.innerHTML = play;}
+      
+      // On video Time Update Event
+      video.ontimeupdate = function () {const percentagePosition = (100*video.currentTime) / video.duration;timeline.style.backgroundSize = `${percentagePosition}% 100%`;timeline.value = percentagePosition;update_time_label()}
+      
+      // Timeline Change Event
+      timeline.addEventListener('change', function () {const time = (timeline.value * video.duration) / 100;video.currentTime = time;});
+      
+      // On Mute Clicked Event
+      soundButton.addEventListener('click', function () {video.muted = !video.muted;soundButton.innerHTML = video.muted ? mute : sound;});
+      
+      // On Full-Screen Button Clicked
+      fullscreenButton.addEventListener('click', function () {if (!isFullScreen) {if (window2.requestFullscreen) {window2.requestFullscreen();} else if (window2.webkitRequestFullscreen) { /* Safari */window2.webkitRequestFullscreen();} else if (window2.msRequestFullscreen) { /* IE11 */window2.msRequestFullscreen();}} else {if (document.exitFullscreen) {document.exitFullscreen();} else if (document.webkitExitFullscreen) { /* Safari */document.webkitExitFullscreen();} else if (document.msExitFullscreen) { /* IE11 */document.msExitFullscreen();}}});
+  
+    document.body.onkeyup = function(e) {
+    if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
+      playButton.click()
+    }
+    if (e.key == "k" || e.keyCode == 75) {
+      playButton.click()
+    }
+    if (e.key == "f" || e.keyCode == 70) {
+      fullscreenButton.click()
+    }
+    if (e.key == "i" || e.keyCode == 73) {
+      alert("Eric's Video Player\nVersion: 0.0.01\nControls:\nk/space key - Toggle Pause\ni - shows this prompt\nleft/right arrow - forward/back 10 seconds")
+    }
+  
+    // Video On-Click
+    video.onclick = function() {playButton.click(); return false};
+  }
+  
+    // Timestamp
+    var toHHMMSS = (secs) => {if (secs) {var sec_num = parseInt(secs, 10);var hours   = Math.floor(sec_num / 3600);var minutes = Math.floor(sec_num / 60) % 60;var seconds = sec_num % 60;return [hours,minutes,seconds].map(v => v < 10 ? "0" + v : v).filter((v,i) => v !== "00" || i > 0).join(":")}else {return "00:00"}}
+    var timestamp = document.getElementById("timestamp")
+    function update_time_label() {timestamp.innerHTML = toHHMMSS(video.currentTime) + "/" + toHHMMSS(video.duration);}
+
+
+    var isrun = 0
+    function save_time() {
+      if (isrun = 1) {document.cookie = params.viewkey + "=" + video.currentTime;}
+    }
+    function start_savetime() {
+      setInterval(save_time, 500)
+    }
+  
+    // Arrow Key Time Control
+    window.onkeydown = vidCtrl;
+    function vidCtrl(e) {
+    const key = e.code;
+    if (key === 'ArrowLeft') {
+      video.currentTime -= 10;
+      if (video.currentTime < 0) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    } else if (key === 'ArrowRight') {
+      video.currentTime += 10;
+      if (video.currentTime > video.duration) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    }
+  }
+  
+  video.addEventListener('canplay', function() {
+    console.log("CanPlay Event")
+    if (!isrun) {
+      console.log("Isnt run yet, running")
+    if (getCookie(params.viewkey) != null) {
+      video.currentTime = getCookie(params.viewkey);
+      start_savetime()
+     }
+     else {
+      start_savetime()
+     }
+    }
+     isrun = 1
+});
+
+  video.addEventListener('loadeddata', function() {
+    console.log("Metadata Loaded")
+     update_time_label()
+  }, false);
+    </script>
+  </body>
