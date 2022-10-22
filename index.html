@@ -77,6 +77,13 @@
       var url = "https://api.onedrive.com/v1.0/shares/u!" + params.viewkey + "/root/content"
   
 
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+
       document.title = movie_name;
       var video2 = document.getElementsByTagName('video')[0];
       video2.poster="https://github.com/AnxinCanada/moviedb/raw/main/" + atob(params.favicon) + ".png"
@@ -149,7 +156,7 @@
 
     var isrun = 0
     function save_time() {
-      if (isrun = 1) {localStorage.setItem(params.viewkey, video.currentTime)}
+      if (isrun = 1) {document.cookie = params.viewkey + "=" + video.currentTime;}
     }
     function start_savetime() {
       setInterval(save_time, 500)
@@ -178,8 +185,8 @@
     console.log("CanPlay Event")
     if (!isrun) {
       console.log("Isnt run yet, running")
-    if (localStorage.getItem(params.viewkey) != null) {
-      video.currentTime = localStorage.getItem(params.viewkey);
+    if (getCookie(params.viewkey) != null) {
+      video.currentTime = getCookie(params.viewkey);
       start_savetime()
      }
     }
